@@ -1,0 +1,95 @@
+<!-- filepath: c:/Users/91953/scms/scmsproj/scmsproj/scmsapp/templates/sales_list.html -->
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table-container {
+            margin: 50px auto;
+            max-width: 90%;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container table-container">
+        <h2 class="text-center mb-4">Sales List</h2>
+        
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Quantity Sold</th>
+                    <th>Price</th>
+                    <th>Date of Sale</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <td>{{ sale.sales_id }}</td>
+                    <td>{{ sale.customer.name }}</td>
+                    <td>{{ sale.material.name }}</td>
+                    <td>{{ sale.quantity_sold }}</td>
+                    <td>{{ sale.price }}</td>
+                    <td>{{ sale.date_of_sale }}</td>
+                    <td>
+                        <span class="badge {% if sale.payment_status == 'Paid' %}bg-success{% else %}bg-warning{% endif %}">
+                            {{ sale.payment_status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'sales_detail' sale.pk %}" class="btn btn-info btn-sm btn-custom">Invoice</a>
+                        <!-- <a href="{% url 'sales_update' sale.pk %}" class="btn btn-warning btn-sm btn-custom">Edit</a>
+                        <a href="{% url 'sales_confirm_delete' sale.pk %}" class="btn btn-danger btn-sm btn-custom">Delete</a> -->
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">No sales found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mb-3">
+            <a href="{% url 'sales_create' %}" class="btn btn-primary">Add New Sale</a>
+        </div>
+    </div>
+    <div class="text-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-dark">Back to Dashboard</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html></div>
+{% endblock %}

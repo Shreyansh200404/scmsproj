@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table-container {
+            margin: 50px auto;
+            max-width: 900px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container table-container">
+        <h2 class="text-center mb-4">Expense List</h2>
+        
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.expense_id }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>
+                        <a href="{% url 'expense_detail' expense.expense_id %}" class="btn btn-info btn-sm btn-custom">View</a>
+                        <a href="{% url 'expense_update' expense.expense_id %}" class="btn btn-warning btn-sm btn-custom">Edit</a>
+                        <!-- <a href="{% url 'expense_confirm_delete' expense.expense_id %}" class="btn btn-danger btn-sm btn-custom">Delete</a> -->
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No expenses found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mb-3">
+            <a href="{% url 'expense_create' %}" class="btn btn-primary">Add New Expense</a>
+        </div>
+        
+    </div>
+    <div class="text-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-dark">Back to Dashboard</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

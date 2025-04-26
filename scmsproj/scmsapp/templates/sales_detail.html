@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Invoice #{{ invoice.sales_id }}{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice #{{ invoice.sales_id }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        /* .invoice-container {
+            width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        } */
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            text-align: center;
+            font-weight: bold;
+            color: {% if invoice.payment_status == 'Paid' %}green{% else %}red{% endif %};
+            margin: 20px 0;
+        }
+
+        .details-table,
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .details-table td,
+        .items-table th,
+        .items-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .items-table th {
+            background: #f0f0f0;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-top: 40px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-group button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div id="invoice-content" class="invoice-container">
+
+    <div class="header">
+        <h1>Stone Crusher Industries</h1>
+        <h2>Invoice</h2>
+        <h3>Date:{{invoice.sales_date}}</h3>
+        <p>Invoice ID: <strong>{{ invoice.sales_id }}</strong></p>
+    </div>
+
+    <div class="status">
+        Payment Status: {{ invoice.payment_status }}
+    </div>
+
+    <table class="details-table">
+        <tr>
+            <td><strong>Customer ID</strong></td>
+            <td>{{ invoice.customer_id }}</td>
+        </tr>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>{{ invoice.customer_name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email</strong></td>
+            <td>{{ invoice.customer_email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone</strong></td>
+            <td>{{ invoice.customer_phone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td>{{ invoice.customer_address }}</td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Quantity</th>
+                <th>Price per Unit</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ invoice.material_name }}</td>
+                <td>{{ invoice.quantity }}</td>
+                <td>₹{{ invoice.price_per_unit|floatformat:2 }}</td>
+                <td>₹{{ invoice.total_price|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total">
+        Grand Total: ₹{{ invoice.total_price|floatformat:2 }}
+    </div>
+
+    <div class="footer">
+        Thank you for your business!
+    </div>
+</div>
+
+<div class="button-group">
+    <button onclick="window.print()">Print Invoice</button>
+    <!-- <button onclick="downloadPDF()">Download PDF</button> -->
+</div>
+
+<!-- <script>
+    function downloadPDF() {
+        const element = document.getElementById('invoice-content');
+        const opt = {
+            margin: [20, 20, 20, 20],
+            filename: 'Invoice_{{ invoice.sales_id }}.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script> -->
+<div class="text-center">
+   <br> <a href="{% url 'dashboard' %}" class="btn btn-dark">Back to Dashboard</a>
+</div>
+
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Stone Crusher{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Customer</h5>
+                    <p class="card-text">Manage customer details and transactions.</p>
+                    <a href="{% url 'customer_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Supplier</h5>
+                    <p class="card-text">Manage supplier information and materials</p>
+                    <a href="{% url 'supplier_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Materials</h5>
+                    <p class="card-text">Record and manage material purchase</p>
+                    <a href="{% url 'material_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Purchase product</h5>
+                    <p class="card-text">Record and manage material purchases.</p>
+                    <a href="{% url 'purchase_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Sales Material</h5>
+                    <p class="card-text">Stock track and manage stock level.</p>
+                    <a href="{% url 'sales_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Stock</h5>
+                    <p class="card-text">Stock track and manage stock level.</p>
+                    <a href="{% url 'stock_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Expense</h5>
+                <p class="card-text">Manage and track Expense.</p>
+                <a href="{% url 'expense_list' %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Report</h5>
+                <p class="card-text">Track on overall report..</p>
+                <a href="{% url 'overall_report' %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div> -->
+    
+
+
+    <div align="center" class="row">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Expense</h5>
+                    <p class="card-text">Manage and track Expense.</p>
+                    <a href="{% url 'expense_list' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Report</h5>
+                    <p class="card-text">Track on overall report..</p>
+                    <a href="{% url 'overall_report' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    
+<!-- You can continue adding more rows here for Purchase, Sales, Stock, Invoice -->
+
+
+{% endblock %}
