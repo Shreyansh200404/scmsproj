@@ -62,5 +62,29 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+    document.getElementById('id_name').addEventListener('input', function() {
+           this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+       });
+
+
+       document.getElementById('id_phone_number').addEventListener('input', function () {
+       this.value = this.value.replace(/\D/g, '').slice(0, 10);
+   });
+
+   // Optional: Validate on form submit
+   document.querySelector('form').addEventListener('submit', function(e) {
+       const phoneField = document.getElementById('id_phone_number');
+       const phoneValue = phoneField.value;
+       const indianPhonePattern = /^[6-9]\d{9}$/;
+
+       if (!indianPhonePattern.test(phoneValue)) {
+           e.preventDefault(); // Prevent form from submitting
+           alert('Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.');
+           phoneField.focus();
+       }
+   });
+</script>
+
 </html>
 {% endblock %}

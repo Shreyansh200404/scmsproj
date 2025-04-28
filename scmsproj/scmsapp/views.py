@@ -815,7 +815,7 @@ def invoice_detail(request, sales_id):
         'sales_id': sale.sales_id,
         'material_name': sale.material.name,
         'quantity': sale.quantity_sold,
-        'price_per_ unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
+        'price_per_unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
         'total_price': sale.price,
         'payment_status': sale.payment_status,  # Added payment status from Sales model
         'sales_date': sale.date_of_sale,  # Added sales date from Sales model
