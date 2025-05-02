@@ -292,40 +292,6 @@ def reset_password_view(request):
     return render(request, 'reset_password.html', {'form': form})
 
 
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.models import User
-# from django.core.mail import send_mail
-# from .models import PasswordResetOTP
-# from .forms import ForgotPasswordForm
-# import random
-
-# def generate_otp():
-#     return str(random.randint(100000, 999999))
-
-# def forgot_password_view(request):
-#     if request.method == 'POST':
-#         form = ForgotPasswordForm(request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data['email']
-#             try:
-#                 user = User.objects.get(email=email)
-#                 otp = generate_otp()
-#                 PasswordResetOTP.objects.create(user=user, otp=otp)
-                
-#                 send_mail(
-#                     subject='Your Password Reset OTP',
-#                     message=f'Your OTP for resetting password is: {otp}',
-#                     from_email='your@email.com',
-#                     recipient_list=[email],
-#                     fail_silently=False
-#                 )
-#                 request.session['reset_user_id'] = user.id
-#                 return redirect('verify_otp')
-#             except User.DoesNotExist:
-#                 form.add_error('email', 'Email not found.')
-#     else:
-#         form = ForgotPasswordForm()
-#     return render(request, 'forgot_password.html', {'form': form})
 
 
 from django.shortcuts import render, redirect
@@ -453,67 +419,6 @@ def stock_confirm_delete(request, stock_id):
 
 
 
-# CRUD views for Sales
-
-# def sales_list(request):
-#                     sales = Sales.objects.all()
-#                     return render(request, 'sales_list.html', {'sales': sales})
-
-# def sales_detail(request, sales_id):
-#                     sale = Sales.objects.get(pk=sales_id)
-#                     return render(request, 'sales_detail.html', {'sale': sale})
-
-# # def sales_create(request):
-# #                     if request.method == 'POST':
-# #                         form = SalesForm(request.POST)
-# #                         if form.is_valid():
-                           
-# #                             s=Stock.objects.get(material=form.cleaned_data['material'])
-# #                             if s.quantity_available<form.cleaned_data['quantity_sold']:
-# #                                 messages.error(request, 'Sale quantity exceeds available stock!')
-# #                                 return render(request, 'sales_form.html', {'form': form})
-# #                             else:
-# #                                 form.save()
-# #                                 s.quantity_available-=form.cleaned_data['quantity_sold']
-# #                                 s.save()
-# #                                 messages.success(request, 'Sale created successfully!')
-# #                                 return redirect('sales_list')
-# #                     else:
-# #                         form = SalesForm()
-# #                     return render(request, 'sales_form.html', {'form': form})
-
-
-# def sales_create(request):
-#     if request.method == 'POST':
-#         form = SalesForm(request.POST)
-#         if form.is_valid():
-#             material = form.cleaned_data['material']
-#             quantity_sold = form.cleaned_data['quantity_sold']
-            
-#             try:
-#                 stock = Stock.objects.get(material=material)
-#             except Stock.DoesNotExist:
-#                 messages.error(request, 'Stock for this material does not exist.')
-#                 return redirect('sales_create')
-
-#             if quantity_sold > stock.quantity_available:
-#                 messages.error(request, 'Sale quantity exceeds available stock!')
-#                 return render(request, 'sales_form.html', {'form': form})
-            
-#             sale = form.save(commit=False)
-#             sale.total_price = quantity_sold * material.price_per_unit
-#             sale.save()
-#             stock.quantity_available -= quantity_sold
-#             stock.save()
-#             messages.success(request, 'Sale created successfully!')
-#             return redirect('sales_list')
-#     else:
-#         form = SalesForm()
-    
-#     return render(request, 'sales_form.html', {'form': form})
-
-
-
 
 def sales_list(request):
     sales = Sales.objects.select_related('customer', 'material').all()
@@ -578,56 +483,6 @@ def sales_confirm_delete(request, sales_id):
 
 
 
-# from django.contrib import messages
-
-# def sales_create(request):
-#     if request.method == 'POST':
-#         form = SalesForm(request.POST)
-#         if form.is_valid():
-#             material = form.cleaned_data['material']
-#             quantity_sold = form.cleaned_data['quantity_sold']
-            
-#             try:
-#                 stock = Stock.objects.get(material=material)
-#             except Stock.DoesNotExist:
-#                 messages.error(request, 'Stock for this material does not exist.')
-#                 return redirect('sales_create')
-
-#             if quantity_sold > stock.quantity_available:
-#                 messages.error(request, 'Sale quantity exceeds available stock!')
-#                 return render(request, 'sales_form.html', {'form': form})
-            
-#             form.save()
-#             stock.quantity_available -= quantity_sold
-#             stock.save()
-#             messages.success(request, 'Sale created successfully!')
-#             return redirect('sales_list')
-#     else:
-#         form = SalesForm()
-    
-#     return render(request, 'sales_form.html', {'form': form})
-
-# def sales_update(request, sales_id):
-#                     sale = Sales.objects.get(pk=sales_id)
-#                     if request.method == 'POST':
-#                         form = SalesForm(request.POST, instance=sale)
-#                         if form.is_valid():
-#                             form.save()
-#                             messages.success(request, 'Sale updated successfully!')
-#                             return redirect('sales_list')
-#                     else:
-#                         form = SalesForm(instance=sale)
-#                     return render(request, 'sales_form.html', {'form': form})
-
-# def sales_confirm_delete(request, sales_id):
-#                     sale = Sales.objects.get(pk=sales_id)
-#                     if request.method == 'POST':
-#                         sale.delete()
-#                         messages.success(request, 'Sale deleted successfully!')
-#                         return redirect('sales_list')
-#                     return render(request, 'sales_confirm_delete.html', {'sale': sale})
-
-
 
 
 
@@ -641,10 +496,6 @@ def purchase_detail(request, purchase_id):
                         purchase = Purchase.objects.get(pk=purchase_id)
                         return render(request, 'purchase_detail.html', {'purchase': purchase})
 
-# def purchase_form(request):
-#     # Fetch suppliers from the database
-#     suppliers = Supplier.objects.all()  # Ensure Supplier model is imported
-#     return render(request, 'purchase_form.html', {'suppliers': suppliers})
 
 
 
@@ -726,177 +577,6 @@ def expense_confirm_delete(request, expense_id):
                             return render(request, 'expense_confirm_delete.html', {'expense': expense})
 
 
-# CRUD views for Invoice
-
-# def invoice_list(request):
-#                                 invoices = Invoice.objects.all()
-#                                 return render(request, 'invoice_list.html', {'invoices': invoices})
-
-# def invoice_detail(request, invoice_id):
-#                                 invoice = Invoice.objects.get(pk=invoice_id)
-#                                 return render(request, 'invoice_detail.html', {'invoice': invoice})
-
-# def invoice_create(request):
-#                                 if request.method == 'POST':
-#                                     form = InvoiceForm(request.POST)
-#                                     if form.is_valid():
-#                                         form.save()
-#                                         messages.success(request, 'Invoice created successfully!')
-#                                         return redirect('invoice_list')
-#                                 else:
-#                                     form = InvoiceForm()
-#                                 return render(request, 'invoice_form.html', {'form': form})
-
-# def invoice_update(request, invoice_id):
-#                                 invoice = Invoice.objects.get(pk=invoice_id)
-#                                 if request.method == 'POST':
-#                                     form = InvoiceForm(request.POST, instance=invoice)
-#                                     if form.is_valid():
-#                                         form.save()
-#                                         messages.success(request, 'Invoice updated successfully!')
-#                                         return redirect('invoice_list')
-#                                 else:
-#                                     form = InvoiceForm(instance=invoice)
-#                                 return render(request, 'invoice_form.html', {'form': form})
-
-# def invoice_confirm_delete(request, invoice_id):
-#                                 invoice = Invoice.objects.get(pk=invoice_id)
-#                                 if request.method == 'POST':
-#                                     invoice.delete()
-#                                     messages.success(request, 'Invoice deleted successfully!')
-#                                     return redirect('invoice_list')
-#                                 return render(request, 'invoice_confirm_delete.html', {'invoice': invoice})
-
-
-
-# def invoice_list(request):
-#     invoices = Invoice.objects.select_related('customer', 'sales').all()
-#     invoice_data = []
-#     for invoice in invoices:
-#         sales = invoice.sales
-#         invoice_data.append({
-#             'invoice_id': invoice.invoice_id,
-#             'customer_id': invoice.customer.customer_id,
-#             'customer_name': invoice.customer.name,
-#             'sales_id': sales.sales_id,
-#             'material': sales.material.name,
-#             'quantity': sales.quantity_sold,
-#             'price_per_unit': sales.price / sales.quantity_sold if sales.quantity_sold > 0 else 0,
-#             'total_price': sales.price,
-#             'payment_status': invoice.payment_status,
-#         })
-#     return render(request, 'invoice_list.html', {'invoices': invoice_data})
-
-
-
-# def invoice_detail(request, invoice_id):
-#         invoice = Invoice.objects.select_related('customer', 'sales').get(pk=invoice_id)
-#         sales = invoice.sales
-#         invoice_data = {
-#             'invoice_id': invoice.invoice_id,
-#             'customer_id': invoice.customer.customer_id,
-#             'customer_name': invoice.customer.name,
-#             'sales_id': sales.sales_id,
-#             'material': sales.material.name,
-#             'quantity': sales.quantity_sold,
-#             'price_per_unit': sales.price / sales.quantity_sold if sales.quantity_sold > 0 else 0,
-#             'total_price': sales.price,
-#             'payment_status': invoice.payment_status,
-#         }
-#         return render(request, 'invoice_detail.html', {'invoice': invoice_data})
-
-
-# def invoice_create(request):
-#         if request.method == 'POST':
-#             form = InvoiceForm(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 messages.success(request, 'Invoice created successfully!')
-#                 return redirect('invoice_list')
-#         else:
-#             form = InvoiceForm()
-#         return render(request, 'invoice_form.html', {'form': form})
-
-
-# def invoice_update(request, invoice_id):
-#         invoice = Invoice.objects.get(pk=invoice_id)
-#         if request.method == 'POST':
-#             form = InvoiceForm(request.POST, instance=invoice)
-#             if form.is_valid():
-#                 form.save()
-#                 messages.success(request, 'Invoice updated successfully!')
-#                 return redirect('invoice_list')
-#         else:
-#             form = InvoiceForm(instance=invoice)
-#         return render(request, 'invoice_form.html', {'form': form})
-
-
-# def invoice_confirm_delete(request, invoice_id):
-#         invoice = Invoice.objects.get(pk=invoice_id)
-#         if request.method == 'POST':
-#             invoice.delete()
-#             messages.success(request, 'Invoice deleted successfully!')
-#             return redirect('invoice_list')
-#         return render(request, 'invoice_confirm_delete.html', {'invoice': invoice})
-
-# CRUD views for InvoiceItem
-
-# def invoice_item_list(request):
-#     invoice_items = InvoiceItem.objects.select_related('invoice', 'material').all()
-#     return render(request, 'invoice_item_list.html', {'invoice_items': invoice_items})
-
-# def invoice_item_detail(request, invoice_item_id):
-#     invoice_item = InvoiceItem.objects.select_related('invoice', 'material').get(pk=invoice_item_id)
-#     return render(request, 'invoice_item_detail.html', {'invoice_item': invoice_item})
-
-# def invoice_item_create(request):
-#     if request.method == 'POST':
-#         form = InvoiceItemForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Invoice Item created successfully!')
-#             return redirect('invoice_item_list')
-#     else:
-#         form = InvoiceItemForm()
-#     return render(request, 'invoice_item_form.html', {'form': form})
-
-# def invoice_item_update(request, invoice_item_id):
-#     invoice_item = InvoiceItem.objects.get(pk=invoice_item_id)
-#     if request.method == 'POST':
-#         form = InvoiceItemForm(request.POST, instance=invoice_item)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Invoice Item updated successfully!')
-#             return redirect('invoice_item_list')
-#     else:
-#         form = InvoiceItemForm(instance=invoice_item)
-#     return render(request, 'invoice_item_form.html', {'form': form})
-
-# def invoice_item_confirm_delete(request, invoice_item_id):
-#     invoice_item = InvoiceItem.objects.get(pk=invoice_item_id)
-#     if request.method == 'POST':
-#         invoice_item.delete()
-#         messages.success(request, 'Invoice Item deleted successfully!')
-#         return redirect('invoice_item_list')
-#     return render(request, 'invoice_item_confirm_delete.html', {'invoice_item': invoice_item})
-
-
-# CRUD views for Invoice
-
-# def invoice_list(request):
-#     invoices = Sales.objects.select_related('customer', 'material').all()
-#     invoice_data = []
-#     for sale in invoices:
-#         invoice_data.append({
-#             'customer_id': sale.customer.customer_id,
-#             'customer_name': sale.customer.name,
-#             'sales_id': sale.sales_id,
-#             'material_name': sale.material.name,
-#             'quantity': sale.quantity_sold,
-#             'price_per_unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
-#             'total_price': sale.price,
-#         })
-#     return render(request, 'invoice_list.html', {'invoices': invoice_data})
 
 def invoice_detail(request, sales_id):
     sale = Sales.objects.select_related('customer', 'material',).get(pk=sales_id)
@@ -918,28 +598,6 @@ def invoice_detail(request, sales_id):
 
 
 
-
-# from django.shortcuts import render
-# from django.utils.timezone import datetime
-# from .models import Sales  # and any other models like Expenses, Materials
-
-# def monthly_report(request, year, month):
-#     sales = Sales.objects.filter(date_year=year, date_month=month)
-
-#     total_sales = sum(sale.price for sale in sales)
-#     total_quantity = sum(sale.quantity_sold for sale in sales)
-#     total_transactions = sales.count()
-
-#     context = {
-#         'sales': sales,
-#         'year': year,
-#         'month': month,
-#         'total_sales': total_sales,
-#         'total_quantity': total_quantity,
-#         'total_transactions': total_transactions,
-#     }
-
-#     return render(request, 'monthly_report.html', context)
 
 
 

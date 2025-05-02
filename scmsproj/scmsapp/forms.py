@@ -45,14 +45,6 @@ class StockForm(forms.ModelForm):
         model = Stock
         fields = '__all__'
 
-# class SalesForm(forms.ModelForm):
-#     class Meta:
-#         model = Sales
-#         fields = '__all__'
-#         widgets={
-#             'date_of_sale': forms.DateInput(attrs={'type': 'date'}),
-            
-#         }
 
 
 
@@ -78,24 +70,6 @@ class ExpenseForm(forms.ModelForm):
         model = Expense
         fields = '__all__'
 
-# class InvoiceForm(forms.ModelForm):
-#     class Meta:
-#         model = Invoice
-#         fields = '__all__'
-#         widgets={
-#             'invoice_date': forms.DateInput(attrs={'type': 'date'}),
-            
-#         }
-
-
-
-# class InvoiceForm(forms.ModelForm):
-#     class Meta:
-#         model = Invoice
-#         fields = '__all__'
-#         widgets = {
-#             'invoice_date': forms.DateInput(attrs={'type': 'date'}),
-#         }
 
 
 
@@ -117,13 +91,3 @@ class ResetPasswordForm(forms.Form):
             raise forms.ValidationError('Passwords do not match.')
 
 
-# class InvoiceItemForm(forms.ModelForm):
-#     class Meta:
-#         model = InvoiceItem
-#         fields = '__all__'
-
-
-# class InvoiceItemForm(forms.ModelForm):
-#     class Meta:
-#         model = InvoiceItem
-#         fields = '__all__'
