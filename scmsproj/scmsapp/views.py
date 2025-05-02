@@ -455,32 +455,126 @@ def stock_confirm_delete(request, stock_id):
 
 # CRUD views for Sales
 
+# def sales_list(request):
+#                     sales = Sales.objects.all()
+#                     return render(request, 'sales_list.html', {'sales': sales})
+
+# def sales_detail(request, sales_id):
+#                     sale = Sales.objects.get(pk=sales_id)
+#                     return render(request, 'sales_detail.html', {'sale': sale})
+
+# # def sales_create(request):
+# #                     if request.method == 'POST':
+# #                         form = SalesForm(request.POST)
+# #                         if form.is_valid():
+                           
+# #                             s=Stock.objects.get(material=form.cleaned_data['material'])
+# #                             if s.quantity_available<form.cleaned_data['quantity_sold']:
+# #                                 messages.error(request, 'Sale quantity exceeds available stock!')
+# #                                 return render(request, 'sales_form.html', {'form': form})
+# #                             else:
+# #                                 form.save()
+# #                                 s.quantity_available-=form.cleaned_data['quantity_sold']
+# #                                 s.save()
+# #                                 messages.success(request, 'Sale created successfully!')
+# #                                 return redirect('sales_list')
+# #                     else:
+# #                         form = SalesForm()
+# #                     return render(request, 'sales_form.html', {'form': form})
+
+
+# def sales_create(request):
+#     if request.method == 'POST':
+#         form = SalesForm(request.POST)
+#         if form.is_valid():
+#             material = form.cleaned_data['material']
+#             quantity_sold = form.cleaned_data['quantity_sold']
+            
+#             try:
+#                 stock = Stock.objects.get(material=material)
+#             except Stock.DoesNotExist:
+#                 messages.error(request, 'Stock for this material does not exist.')
+#                 return redirect('sales_create')
+
+#             if quantity_sold > stock.quantity_available:
+#                 messages.error(request, 'Sale quantity exceeds available stock!')
+#                 return render(request, 'sales_form.html', {'form': form})
+            
+#             sale = form.save(commit=False)
+#             sale.total_price = quantity_sold * material.price_per_unit
+#             sale.save()
+#             stock.quantity_available -= quantity_sold
+#             stock.save()
+#             messages.success(request, 'Sale created successfully!')
+#             return redirect('sales_list')
+#     else:
+#         form = SalesForm()
+    
+#     return render(request, 'sales_form.html', {'form': form})
+
+
+
+
 def sales_list(request):
-                    sales = Sales.objects.all()
-                    return render(request, 'sales_list.html', {'sales': sales})
+    sales = Sales.objects.select_related('customer', 'material').all()
+    return render(request, 'sales_list.html', {'sales': sales})
 
 def sales_detail(request, sales_id):
-                    sale = Sales.objects.get(pk=sales_id)
-                    return render(request, 'sales_detail.html', {'sale': sale})
+    sale = Sales.objects.select_related('customer', 'material').get(pk=sales_id)
+    return render(request, 'sales_detail.html', {'sale': sale})
 
 def sales_create(request):
-                    if request.method == 'POST':
-                        form = SalesForm(request.POST)
-                        if form.is_valid():
-                           
-                            s=Stock.objects.get(material=form.cleaned_data['material'])
-                            if s.quantity_available<form.cleaned_data['quantity_sold']:
-                                messages.error(request, 'Sale quantity exceeds available stock!')
-                                return render(request, 'sales_form.html', {'form': form})
-                            else:
-                                form.save()
-                                s.quantity_available-=form.cleaned_data['quantity_sold']
-                                s.save()
-                                messages.success(request, 'Sale created successfully!')
-                                return redirect('sales_list')
-                    else:
-                        form = SalesForm()
-                    return render(request, 'sales_form.html', {'form': form})
+    if request.method == 'POST':
+        form = SalesForm(request.POST)
+        if form.is_valid():
+            material = form.cleaned_data['material']
+            quantity_sold = form.cleaned_data['quantity_sold']
+
+            try:
+                stock = Stock.objects.get(material=material)
+            except Stock.DoesNotExist:
+                messages.error(request, 'Stock for this material does not exist.')
+                return redirect('sales_create')
+
+            if quantity_sold > stock.quantity_available:
+                messages.error(request, 'Sale quantity exceeds available stock!')
+                return render(request, 'sales_form.html', {'form': form})
+
+            sale = form.save(commit=False)
+            sale.price = material.price
+            sale.total_price = quantity_sold * material.price
+            sale.save()
+
+            stock.quantity_available -= quantity_sold
+            stock.save()
+
+            messages.success(request, 'Sale created successfully!')
+            return redirect('sales_list')
+    else:
+        form = SalesForm()
+    return render(request, 'sales_form.html', {'form': form})
+
+def sales_update(request, sales_id):
+    sale = Sales.objects.get(pk=sales_id)
+    if request.method == 'POST':
+        form = SalesForm(request.POST, instance=sale)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Sale updated successfully!')
+            return redirect('sales_list')
+    else:
+        form = SalesForm(instance=sale)
+    return render(request, 'sales_form.html', {'form': form})
+
+def sales_confirm_delete(request, sales_id):
+    sale = Sales.objects.get(pk=sales_id)
+    if request.method == 'POST':
+        sale.delete()
+        messages.success(request, 'Sale deleted successfully!')
+        return redirect('sales_list')
+    return render(request, 'sales_confirm_delete.html', {'sale': sale})
+
+
 
 
 
@@ -513,25 +607,25 @@ def sales_create(request):
     
 #     return render(request, 'sales_form.html', {'form': form})
 
-def sales_update(request, sales_id):
-                    sale = Sales.objects.get(pk=sales_id)
-                    if request.method == 'POST':
-                        form = SalesForm(request.POST, instance=sale)
-                        if form.is_valid():
-                            form.save()
-                            messages.success(request, 'Sale updated successfully!')
-                            return redirect('sales_list')
-                    else:
-                        form = SalesForm(instance=sale)
-                    return render(request, 'sales_form.html', {'form': form})
+# def sales_update(request, sales_id):
+#                     sale = Sales.objects.get(pk=sales_id)
+#                     if request.method == 'POST':
+#                         form = SalesForm(request.POST, instance=sale)
+#                         if form.is_valid():
+#                             form.save()
+#                             messages.success(request, 'Sale updated successfully!')
+#                             return redirect('sales_list')
+#                     else:
+#                         form = SalesForm(instance=sale)
+#                     return render(request, 'sales_form.html', {'form': form})
 
-def sales_confirm_delete(request, sales_id):
-                    sale = Sales.objects.get(pk=sales_id)
-                    if request.method == 'POST':
-                        sale.delete()
-                        messages.success(request, 'Sale deleted successfully!')
-                        return redirect('sales_list')
-                    return render(request, 'sales_confirm_delete.html', {'sale': sale})
+# def sales_confirm_delete(request, sales_id):
+#                     sale = Sales.objects.get(pk=sales_id)
+#                     if request.method == 'POST':
+#                         sale.delete()
+#                         messages.success(request, 'Sale deleted successfully!')
+#                         return redirect('sales_list')
+#                     return render(request, 'sales_confirm_delete.html', {'sale': sale})
 
 
 
@@ -789,23 +883,23 @@ def expense_confirm_delete(request, expense_id):
 
 # CRUD views for Invoice
 
-def invoice_list(request):
-    invoices = Sales.objects.select_related('customer', 'material').all()
-    invoice_data = []
-    for sale in invoices:
-        invoice_data.append({
-            'customer_id': sale.customer.customer_id,
-            'customer_name': sale.customer.name,
-            'sales_id': sale.sales_id,
-            'material_name': sale.material.name,
-            'quantity': sale.quantity_sold,
-            'price_per_unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
-            'total_price': sale.price,
-        })
-    return render(request, 'invoice_list.html', {'invoices': invoice_data})
+# def invoice_list(request):
+#     invoices = Sales.objects.select_related('customer', 'material').all()
+#     invoice_data = []
+#     for sale in invoices:
+#         invoice_data.append({
+#             'customer_id': sale.customer.customer_id,
+#             'customer_name': sale.customer.name,
+#             'sales_id': sale.sales_id,
+#             'material_name': sale.material.name,
+#             'quantity': sale.quantity_sold,
+#             'price_per_unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
+#             'total_price': sale.price,
+#         })
+#     return render(request, 'invoice_list.html', {'invoices': invoice_data})
 
 def invoice_detail(request, sales_id):
-    sale = Sales.objects.select_related('customer', 'material').get(pk=sales_id)
+    sale = Sales.objects.select_related('customer', 'material',).get(pk=sales_id)
     invoice_data = {
         'customer_id': sale.customer.customer_id,
         'customer_name': sale.customer.name,
@@ -815,8 +909,8 @@ def invoice_detail(request, sales_id):
         'sales_id': sale.sales_id,
         'material_name': sale.material.name,
         'quantity': sale.quantity_sold,
-        'price_per_unit': sale.price / sale.quantity_sold if sale.quantity_sold > 0 else 0,
-        'total_price': sale.price,
+        'price_per_unit': sale.material.price,
+        'total_price': sale.total_price,  # Taken from Sales model
         'payment_status': sale.payment_status,  # Added payment status from Sales model
         'sales_date': sale.date_of_sale,  # Added sales date from Sales model
     }

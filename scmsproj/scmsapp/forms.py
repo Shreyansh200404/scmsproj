@@ -45,15 +45,24 @@ class StockForm(forms.ModelForm):
         model = Stock
         fields = '__all__'
 
+# class SalesForm(forms.ModelForm):
+#     class Meta:
+#         model = Sales
+#         fields = '__all__'
+#         widgets={
+#             'date_of_sale': forms.DateInput(attrs={'type': 'date'}),
+            
+#         }
+
+
+
 class SalesForm(forms.ModelForm):
     class Meta:
-        model = Sales
-        fields = '__all__'
+        model= Sales
+        fields=['customer','material','quantity_sold','date_of_sale','payment_status']
         widgets={
             'date_of_sale': forms.DateInput(attrs={'type': 'date'}),
-            
         }
-
 
 class PurchaseForm(forms.ModelForm):
     class Meta:

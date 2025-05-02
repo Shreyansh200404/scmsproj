@@ -45,7 +45,7 @@ class Supplier(models.Model):
 class Material(models.Model):
     material_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -62,17 +62,36 @@ class Stock(models.Model):
         return f"{self.material.name} - {self.quantity_available}"
 
 # 6. Sales Model
+# class Sales(models.Model):
+#     sales_id = models.AutoField(primary_key=True)
+#     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+#     material = models.ForeignKey(Material, on_delete=models.CASCADE)
+#     quantity_sold = models.DecimalField(max_digits=10, decimal_places=2)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     date_of_sale = models.DateField()
+#     payment_status = models.CharField(max_length=10, choices=[('Paid', 'Paid'), ('Pending', 'Pending')])
+
+#     def __str__(self):
+#         return f"Sale {self.sales_id} - {self.customer.name}"
+
+
+
 class Sales(models.Model):
     sales_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     quantity_sold = models.DecimalField(max_digits=10, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+   
+   # price_per_unit=models.ForeignKey(Material, on_delete=models.CASCADE, related_name='material_price_per_unit')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
     date_of_sale = models.DateField()
     payment_status = models.CharField(max_length=10, choices=[('Paid', 'Paid'), ('Pending', 'Pending')])
 
     def __str__(self):
         return f"Sale {self.sales_id} - {self.customer.name}"
+    
+    
 
 # 7. Purchase Model
 class Purchase(models.Model):
@@ -115,41 +134,41 @@ class Expense(models.Model):
     def __str__(self):
         return f"Expense {self.expense_id} - {self.category}"
 
-#9. Invoice Model
-class Invoice(models.Model):
-    invoice_id = models.AutoField(primary_key=True)
-    sales = models.ForeignKey(Sales, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.CharField(max_length=10, choices=[('Paid', 'Paid'), ('Pending', 'Pending')])
-    invoice_date = models.DateField()
+ #9. Invoice Model
+# class Invoice(models.Model):
+#     invoice_id = models.AutoField(primary_key=True)
+#     sales = models.ForeignKey(Sales, on_delete=models.CASCADE)
+#     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+#     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     payment_status = models.CharField(max_length=10, choices=[('Paid', 'Paid'), ('Pending', 'Pending')])
+#     invoice_date = models.DateField()
 
-    def __str__(self):
-        return f"Invoice {self.invoice_id} - {self.customer.name}"
+#     def __str__(self):
+#         return f"Invoice {self.invoice_id} - {self.customer.name}"
     
 
-     # 10. InvoiceItem Model
-class InvoiceItem(models.Model):
-        invoice_item_id = models.AutoField(primary_key=True)
-        invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
-        material = models.ForeignKey(Material, on_delete=models.CASCADE)
-        quantity = models.DecimalField(max_digits=10, decimal_places=2)
-        price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
-        total_price = models.DecimalField(max_digits=10, decimal_places=2)
+# #      # 10. InvoiceItem Model
+# class InvoiceItem(models.Model):
+#         invoice_item_id = models.AutoField(primary_key=True)
+#         invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
+#         material = models.ForeignKey(Material, on_delete=models.CASCADE)
+#         quantity = models.DecimalField(max_digits=10, decimal_places=2)
+#         price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
+#         total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
-        def save(self, *args, **kwargs):
-            self.total_price = self.quantity * self.price_per_unit
-            super().save(*args, **kwargs)
+#         def save(self, *args, **kwargs):
+#             self.total_price = self.quantity * self.price_per_unit
+#             super().save(*args, **kwargs)
 
-        def __str__(self):
-            return f"InvoiceItem {self.invoice_item_id} - {self.material.name}"
-
-
+#         def __str__(self):
+#             return f"InvoiceItem {self.invoice_item_id} - {self.material.name}"
 
 
 
 
-    # 10. InvoiceItem Model
+
+
+#     # 10. InvoiceItem Model
 
 
 import uuid
