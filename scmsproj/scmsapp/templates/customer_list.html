@@ -38,8 +38,7 @@
                     <td>{{ customer.phone_number }}</td>
                     <td>
                         <a href="{% url 'customer_detail' customer.customer_id %}" class="btn btn-sm btn-info">View</a>
-                        <a href="{% url 'customer_update' customer.customer_id %}" class="btn btn-sm btn-primary">Edit</a>
-                        <a href="{% url 'customer_confirm_delete' customer.customer_id %}" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{% url 'customer_update' customer.customer_id %}" class="btn btn-sm btn-primary">Edit</a> 
                     </td>
                 </tr>
                 {% empty %}

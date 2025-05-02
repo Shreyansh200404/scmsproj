@@ -3,120 +3,174 @@
 {% block title %}Dashboard - Stone Crusher{% endblock %}
 
 {% block content %}
+{% load static %}
+<!-- Custom Styles -->
+<style>
+    body {
+        /* background: linear-gradient(45deg, rgba(141, 46, 46, 0.73), rgba(212, 110, 110, 0.6)); */
+        color: #f1f1f1;
+        font-family: 'Arial', sans-serif;
 
+        background-image: url("{% static 'image/bg_1.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+            
+        
+    }
 
+    .glass-container {
+        background: rgba(227, 220, 220, 0.855);
+        padding: 20px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(243, 240, 240, 0.1);
+        margin-top: 30px;
+        border-radius: 12px;
+    }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Customer</h5>
-                    <p class="card-text">Manage customer details and transactions.</p>
-                    <a href="{% url 'customer_list' %}" class="btn btn-primary">View</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Supplier</h5>
-                    <p class="card-text">Manage supplier information and materials</p>
-                    <a href="{% url 'supplier_list' %}" class="btn btn-primary">View</a>
-                </div>
-            </div>
-        </div>
+    .card {
+        background: rgba(246, 239, 239, 0.8);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        color: #ffffff;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
 
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Materials</h5>
-                    <p class="card-text">Record and manage material purchase</p>
-                    <a href="{% url 'material_list' %}" class="btn btn-primary">View</a>
-                </div>
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .card-text {
+        color: #dddddd;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1rem;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .btn-primary:focus {
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+    }
+
+    .glass-card {
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border: 1px solid rgba(17, 10, 10, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 12px 30px rgba(125, 121, 121, 0.4);
+    }
+</style>
+
+<!-- Start of the main content -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Customer</h5>
+                <p class="card-text">Manage customer details and transactions.</p>
+                <a href="{% url 'customer_list' %}" class="btn btn-primary">View</a>
             </div>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Purchase product</h5>
-                    <p class="card-text">Record and manage material purchases.</p>
-                    <a href="{% url 'purchase_list' %}" class="btn btn-primary">View</a>
-                </div>
+    <div class="col-md-4">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Supplier</h5>
+                <p class="card-text">Manage supplier information and materials</p>
+                <a href="{% url 'supplier_list' %}" class="btn btn-primary">View</a>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Sales Material</h5>
-                    <p class="card-text">Stock track and manage stock level.</p>
-                    <a href="{% url 'sales_list' %}" class="btn btn-primary">View</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Stock</h5>
-                    <p class="card-text">Stock track and manage stock level.</p>
-                    <a href="{% url 'stock_list' %}" class="btn btn-primary">View</a>
-                </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Materials</h5>
+                <p class="card-text">Record and manage material purchase</p>
+                <a href="{% url 'material_list' %}" class="btn btn-primary">View</a>
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-
-<!-- <div class="row">
+<div class="row">
     <div class="col-md-4">
-        <div class="card text-center">
+        <div class="card text-center glass-card">
             <div class="card-body">
-                <h5 class="card-title">Expense</h5>
-                <p class="card-text">Manage and track Expense.</p>
-                <a href="{% url 'expense_list' %}" class="btn btn-primary">View</a>
+                <h5 class="card-title">Purchase Product</h5>
+                <p class="card-text">Record and manage material purchases.</p>
+                <a href="{% url 'purchase_list' %}" class="btn btn-primary">View</a>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card text-center">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Sales Material</h5>
+                <p class="card-text">Track and manage sales of material.</p>
+                <a href="{% url 'sales_list' %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Stock</h5>
+                <p class="card-text">Track and manage stock levels.</p>
+                <a href="{% url 'stock_list' %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card text-center glass-card">
+            <div class="card-body">
+                <h5 class="card-title">Expense</h5>
+                <p class="card-text">Manage and track expenses.</p>
+                <a href="{% url 'expense_list' %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-center glass-card">
             <div class="card-body">
                 <h5 class="card-title">Report</h5>
-                <p class="card-text">Track on overall report..</p>
+                <p class="card-text">Track overall reports and performance.</p>
                 <a href="{% url 'overall_report' %}" class="btn btn-primary">View</a>
             </div>
         </div>
-    </div> -->
-    
-
-
-    <div align="center" class="row">
-        <div class="col-md-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Expense</h5>
-                    <p class="card-text">Manage and track Expense.</p>
-                    <a href="{% url 'expense_list' %}" class="btn btn-primary">View</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Report</h5>
-                    <p class="card-text">Track on overall report..</p>
-                    <a href="{% url 'overall_report' %}" class="btn btn-primary">View</a>
-                </div>
-            </div>
-        </div>
-    
-<!-- You can continue adding more rows here for Purchase, Sales, Stock, Invoice -->
-
+    </div>
+</div>
 
 {% endblock %}

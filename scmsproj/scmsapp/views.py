@@ -870,7 +870,7 @@ def overall_report(request):
     net_profit = total_sales - total_expenses
 
     # Payment Status Count
-    payment_summary = Sales.objects.values('payment_status').annotate(count=Sum('quantity_sold'))
+    payment_summary = Sales.objects.values('payment_status').annotate(count=Sum('price'))
 
     context = {
         'total_sales_amount': total_sales,
