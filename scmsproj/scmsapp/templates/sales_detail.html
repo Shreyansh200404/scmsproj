@@ -133,6 +133,7 @@
                 <th>Material</th>
                 <th>Quantity</th>
                 <th>Price per Unit</th>
+                <th>18% GST</th>
                 <th>Total Price</th>
             </tr>
         </thead>
@@ -141,13 +142,14 @@
                 <td>{{ invoice.material_name }}</td>
                 <td>{{ invoice.quantity }}</td>
                 <td>₹{{ invoice.price_per_unit|floatformat:2 }}</td>
-                <td>₹{{ invoice.total_price|floatformat:2 }}</td>
+                <td>₹{{ invoice.gst|floatformat:2 }}</td>
+                <td>₹{{ invoice.total_price|add:invoice.gst|floatformat:2 }}</td>
             </tr>
         </tbody>
     </table>
 
     <div class="total">
-        Grand Total: ₹{{ invoice.total_price|floatformat:2 }}
+        Grand Total: ₹{{ invoice.total_price|add:invoice.gst|floatformat:2 }}
     </div>
 
     <div class="footer">

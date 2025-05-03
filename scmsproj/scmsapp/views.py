@@ -580,6 +580,7 @@ def expense_confirm_delete(request, expense_id):
 
 def invoice_detail(request, sales_id):
     sale = Sales.objects.select_related('customer', 'material',).get(pk=sales_id)
+    g=float(sale.total_price) * 0.18
     invoice_data = {
         'customer_id': sale.customer.customer_id,
         'customer_name': sale.customer.name,
@@ -590,7 +591,9 @@ def invoice_detail(request, sales_id):
         'material_name': sale.material.name,
         'quantity': sale.quantity_sold,
         'price_per_unit': sale.material.price,
-        'total_price': sale.total_price,  # Taken from Sales model
+        
+        'total_price': sale.total_price, 
+        'gst': g,# Taken from Sales model
         'payment_status': sale.payment_status,  # Added payment status from Sales model
         'sales_date': sale.date_of_sale,  # Added sales date from Sales model
     }
