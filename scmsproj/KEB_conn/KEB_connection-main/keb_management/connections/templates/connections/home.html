@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEB Connection Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero {
+            background: url('https://i.pinimg.com/736x/39/1c/4c/391c4c6517c4b2ffe021b638af6fdcbe.jpg') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #f8f9fa;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">KEB Connection Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'apply_connection' %}">Apply for Connection</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'connection_list' %}">View Connections</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="btn btn-danger btn-sm ms-3" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light btn-sm ms-3" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-light btn-sm ms-2" href="{% url 'register' %}">Register</a>
+                        </li>
+                        
+                       
+                    {% endif %}
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1 class="text-center">Welcome To KEB Connection Management</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container text-center my-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4>🔌 Apply for Connection</h4>
+                        <p>New users can apply for an electricity connection easily.</p>
+                        <a href="{% url 'apply_connection' %}" class="btn btn-primary">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4>📄 View Connections</h4>
+                        <p>Check your existing connections and application status.</p>
+                        <a href="{% url 'connection_list' %}" class="btn btn-success">View List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4>📞 Contact Us</h4>
+                        <p>Need help? Contact our support team for assistance.</p>
+                        <a href="{% url 'contact' %}" class="btn btn-warning">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 KEB Connection Management | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
