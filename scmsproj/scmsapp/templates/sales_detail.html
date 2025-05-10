@@ -93,7 +93,7 @@
 <div id="invoice-content" class="invoice-container">
 
     <div class="header">
-        <h1>Stone Crusher Industries</h1>
+        <h1>Bhagyalaxmi Stone Crusher Industries</h1>
         <h2>Invoice</h2>
         <h3>Date: {{ invoice.sales_date }}</h3>
         <h5>Sales ID: <strong>{{ invoice.sales_id }}</strong></h5>
@@ -150,6 +150,11 @@
 
     <div class="total">
         Grand Total: ₹{{ invoice.total_price|add:invoice.gst|floatformat:2 }}
+    </div>
+
+
+    <div class="total">
+      <br><br><br><br>  Authorised sign&seal
     </div>
 
     <div class="footer">
