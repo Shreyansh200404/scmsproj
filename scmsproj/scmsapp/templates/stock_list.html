@@ -53,7 +53,14 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ stock.material.name }}</td>
-                    <td>{{ stock.quantity_available }}</td>
+                    <!-- <td>{{ stock.quantity_available }}</td> -->
+                     <td>
+                    {% if stock.quantity_available == 0 %}
+                        <span >Out of Stock</span>
+                    {% else %}
+                        <span>{{ stock.quantity_available }}</span>
+                    {% endif %}
+                </td>
                     <td>{{ stock.last_updated|date:"Y-m-d H:i" }}</td>
                     <td>
                         <a href="{% url 'stock_detail' stock.stock_id %}" class="btn btn-info btn-sm btn-custom">View</a>
